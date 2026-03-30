@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AgendaPro | Controle de agendamentos</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/app.css">
+</head>
+<body>
+<main class="layout">
+    <section class="hero">
+        <div class="hero__copy">
+            <span class="badge">Spring Boot + Java + H2</span>
+            <h1>Seu agendamento com cara de sistema pronto para apresentar.</h1>
+            <p>
+                Organize atendimentos, valide horarios e acompanhe a agenda do dia em uma interface leve,
+                moderna e conectada diretamente ao backend.
+            </p>
+            <div class="hero__stats">
+                <article>
+                    <strong id="count-agendamentos">0</strong>
+                    <span>agendamentos carregados</span>
+                </article>
+                <article>
+                    <strong>localhost:8080</strong>
+                    <span>execucao padrao no IntelliJ</span>
+                </article>
+            </div>
+        </div>
+
+        <div class="hero__card">
+            <h2>Novo agendamento</h2>
+            <form id="agendamento-form" class="form-card">
+                <label>
+                    <span>Servico</span>
+                    <input type="text" name="servico" placeholder="Ex.: Corte e escova" required>
+                </label>
+                <label>
+                    <span>Profissional</span>
+                    <input type="text" name="profissional" placeholder="Ex.: Ana Souza" required>
+                </label>
+                <label>
+                    <span>Cliente</span>
+                    <input type="text" name="cliente" placeholder="Nome do cliente" required>
+                </label>
+                <label>
+                    <span>Telefone</span>
+                    <input type="text" name="telefoneCliente" placeholder="(11) 99999-9999" required>
+                </label>
+                <label>
+                    <span>Data e hora</span>
+                    <input type="datetime-local" name="dataHoraAgendamento" required>
+                </label>
+
+                <button type="submit">Salvar agendamento</button>
+                <p id="feedback" class="feedback" aria-live="polite"></p>
+            </form>
+        </div>
+    </section>
+
+    <section class="agenda">
+        <div class="agenda__header">
+            <div>
+                <span class="badge badge--soft">Agenda do dia</span>
+                <h2>Atendimentos programados</h2>
+            </div>
+            <label class="filter">
+                <span>Filtrar por data</span>
+                <input id="filtro-data" type="date">
+            </label>
+        </div>
+
+        <div id="lista-agendamentos" class="agenda__grid"></div>
+    </section>
+</main>
+
+<script src="/app.js"></script>
+</body>
+</html>

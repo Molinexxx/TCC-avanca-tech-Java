@@ -1,42 +1,38 @@
-# Sistema de Agendamentos com Spring Boot
+# Módulo Agendamentos
 
-Projeto recriado e atualizado em Java com Spring Boot, interface HTML moderna e banco H2 em memoria.
+Aplicação Spring Boot com API REST, interface web e H2 em memória. A interface reúne o formulário de cadastro e a agenda do dia.
 
-## O que foi melhorado
+## Como executar
 
-- organizacao da API de agendamentos
-- validacao dos campos obrigatorios
-- verificacao de conflito de horario por profissional
-- pagina inicial com formulario e agenda do dia
-- tratamento de erros para exibir mensagens amigaveis
-- configuracao simples para abrir e executar no IntelliJ
+Com o JDK 17, abra esta pasta no IntelliJ IDEA como projeto Maven e execute a classe [AgendadorHorariosApplication](src/main/java/com/ProjectMolina/agendador_horarios/AgendadorHorariosApplication.java). No PowerShell, dentro de `Agendamentos/`, o comando equivalente é:
 
-## Como abrir no IntelliJ
+```powershell
+.\mvnw.cmd spring-boot:run
+```
 
-1. Abra a pasta `Agendamentos` como projeto Maven.
-2. Aguarde o IntelliJ importar as dependencias do `pom.xml`.
-3. Execute a classe [`AgendadorHorariosApplication.java`](C:\Users\Administrator\Desktop\TCC-avanca tech-Java\Agendamentos\src\main\java\com\ProjectMolina\agendador_horarios\AgendadorHorariosApplication.java).
-4. Abra o navegador em [http://localhost:8080](http://localhost:8080).
+Abra [http://localhost:8080/](http://localhost:8080/).
 
-## Estrutura principal
+## API de agendamentos
 
-- `src/main/java/.../controller`: endpoints REST e tratamento de erros
-- `src/main/java/.../services`: regras de negocio
-- `src/main/java/.../infrastructure/entity`: entidade JPA
-- `src/main/java/.../infrastructure/repository`: acesso ao banco
-- `src/main/resources/static`: HTML, CSS e JavaScript da interface
+| Método e rota | Operação |
+| --- | --- |
+| `GET /agendamentos?data=2099-12-30` | Lista os agendamentos de uma data no formato `AAAA-MM-DD`. |
+| `GET /agendamentos/todos` | Lista todos os agendamentos. |
+| `POST /agendamentos` | Cria um agendamento. |
+| `PUT /agendamentos` | Atualiza o agendamento identificado pelos parâmetros `cliente` e `dataHoraAgendamento` originais. |
+| `DELETE /agendamentos` | Exclui o agendamento identificado pelos mesmos parâmetros. |
 
-## Endpoints
+Na criação e na edição, envie um JSON com `servico`, `profissional`, `dataHoraAgendamento`, `cliente` e `telefoneCliente`. A data e hora do corpo devem estar no futuro, no formato `AAAA-MM-DDTHH:mm`. Ao montar a URL de edição ou exclusão, codifique os valores dos parâmetros de consulta.
 
-- `GET /agendamentos?data=2026-03-30`
-- `GET /agendamentos/todos`
-- `POST /agendamentos`
-- `PUT /agendamentos?cliente=...&dataHoraAgendamento=...`
-- `DELETE /agendamentos?cliente=...&dataHoraAgendamento=...`
+## Estrutura e banco
 
-## Banco H2
+- `controller/` recebe as requisições e trata erros da API.
+- `services/` aplica as regras de agendamento, incluindo a verificação de horário repetido para o profissional.
+- `infrastructure/` contém a entidade e o repositório JPA.
+- [src/main/resources/static/](src/main/resources/static/) contém a interface web.
 
-- console: [http://localhost:8080/h2-console](http://localhost:8080/h2-console)
-- JDBC URL: `jdbc:h2:mem:agendamentos-db`
-- usuario: `sa`
-- senha: em branco
+O banco `jdbc:h2:mem:agendamentos-db` dura enquanto a aplicação estiver ativa. Durante o desenvolvimento, o [console H2](http://localhost:8080/h2-console) usa as definições do [application.properties](src/main/resources/application.properties).
+
+## Testes
+
+Execute `.\mvnw.cmd test` no PowerShell. A suíte inclui a inicialização do contexto e um teste de integração que cria um agendamento e consulta a agenda do dia.
